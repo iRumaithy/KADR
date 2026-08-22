@@ -50,7 +50,7 @@
  <section class="hero" id="profileHero"></section>
  <section class="section" id="catalogSection"><div class="sectionhead"><div><h2 id="listTitle">الأعلى تقييمًا</h2><p>مرتبة حسب رأي صاحب الصفحة</p></div></div>
   <div class="searchbar"><input id="publicSearch" type="search" placeholder="ابحث باسم العمل، التصنيف أو المنصة…"></div>
-  <div class="filters" id="genreFilters"></div>
+  <div class="homeFilterRow"><div class="filters" id="genreFilters"></div><button class="btn primary addRatingHome hidden" id="addWorkHomeBtn">＋ إضافة تقييم</button></div>
   <div class="segment" id="typeSegment"><button data-type="movie" class="active">🎬 الأفلام</button><button data-type="series">📺 المسلسلات</button></div>
   <div class="grid" id="workGrid"></div>
  </section>
@@ -60,7 +60,7 @@
  <section class="hero" id="dashboardHero"></section>
  <section class="section"><div class="sectionhead"><div><h2>أعمالي</h2><p>إدارة الأفلام والمسلسلات وسجل المشاهدات</p></div></div>
   <div class="searchbar"><input id="dashSearch" type="search" placeholder="ابحث في تقييماتك…"></div>
-  <div class="dashFilterRow"><div class="filters" id="dashGenreFilters"></div><button class="btn primary addRatingCompact" id="addWorkBtn">＋ إضافة تقييم</button></div>
+  <div class="filters" id="dashGenreFilters"></div>
   <div class="segment" id="dashTypeSegment"><button data-type="movie" class="active">🎬 الأفلام</button><button data-type="series">📺 المسلسلات</button></div><div class="grid" id="dashGrid"></div>
  </section>
 </main>
@@ -69,7 +69,7 @@
  <section class="hero" id="adminHero"></section>
  <section class="section"><div class="sectionhead"><div><h2>المستخدمون</h2><p>إدارة حسابات كادر وصفحاتهم العامة</p></div><button class="btn primary" id="openCreateUserBtn">＋ مستخدم جديد</button></div><div class="tablewrap"><table><thead><tr><th>المستخدم</th><th>الرابط</th><th>الأعمال</th><th>الحالة</th><th>الانضمام</th><th>إدارة</th></tr></thead><tbody id="usersTable"></tbody></table></div></section>
 </main>
-<div class="footerVersion" id="footerVersion">كادر • v1.1</div>
+<div class="footerVersion" id="footerVersion">كادر • v1.2</div>
 </div>
 
 <div class="modalwrap" id="authModal"><div class="modal"><div class="modalhead"><h3>الدخول إلى كادر</h3><button class="close" data-close="authModal">×</button></div><div class="note" style="margin-bottom:12px">الدخول مخصص للحسابات المعتمدة من مالك المنصة. إنشاء الحسابات الجديدة يتم من لوحة المالك فقط.</div><div class="formgrid"><div class="field"><label>اسم المستخدم أو البريد الإلكتروني</label><input id="loginIdentifier" dir="ltr" autocomplete="username" placeholder="username أو name@example.com"></div><div class="field"><label>كلمة المرور</label><input id="loginPassword" type="password" autocomplete="current-password"></div><div class="rememberRow"><label><input id="rememberMe" type="checkbox" checked> إبقائي مسجّلًا على هذا الجهاز</label><span class="hint">اختياري</span></div></div><div class="note hidden" id="confirmNote" style="margin-top:12px">بريد هذا الحساب غير مؤكد بعد.<div style="margin-top:9px"><button class="btn secondary" id="resendConfirmBtn">إعادة إرسال رابط التأكيد</button></div></div><div class="note hidden" id="demoNote" style="margin-top:12px">الوضع المحلي للتجربة: <b>abdullah / user</b> أو <b>admin / admin</b>.</div><div class="formactions"><button class="btn primary" id="loginBtn">دخول</button></div></div></div>

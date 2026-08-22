@@ -61,3 +61,11 @@ html.standalone-mode,html.standalone-mode body{overscroll-behavior:none}html.sta
 .addRatingCompact{flex:0 0 auto;white-space:nowrap;border-radius:999px;padding:10px 15px;min-height:42px;font-size:12px;box-shadow:0 8px 22px rgba(213,178,74,.18)}
 html.kadr-force-refresh body{opacity:.01;pointer-events:none}
 @media(max-width:430px){.dashFilterRow{gap:7px}.addRatingCompact{padding:10px 12px;font-size:11px}.dashFilterRow .chip{padding:10px 12px}}
+
+
+/* KADR v1.2 — home-first add rating + deterministic release controls */
+.homeFilterRow{display:flex;align-items:center;gap:9px;margin:1px 0 12px;min-width:0}
+.homeFilterRow .filters{flex:1;min-width:0;padding:2px 0;align-items:center}
+.addRatingHome{flex:0 0 auto;white-space:nowrap;border-radius:999px;padding:10px 15px;min-height:42px;font-size:12px;box-shadow:0 8px 22px rgba(213,178,74,.18)}
+.releaseBusy{opacity:.72;pointer-events:none;filter:saturate(.7)}
+@media(max-width:430px){.homeFilterRow{gap:7px}.addRatingHome{padding:10px 12px;font-size:11px}.homeFilterRow .chip{padding:10px 12px}}
