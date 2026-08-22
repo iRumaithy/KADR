@@ -110,10 +110,15 @@
       <div class="ratingTenBox"><input id="workViewingOverall" type="number" min="1" max="10" step="0.1" inputmode="decimal" placeholder="8.5"><span>/10</span></div>
       <div class="ratingHelp">يمكنك الاكتفاء بهذا التقييم فقط.<br>التقييمات المفصلة اختيارية.</div>
     </div>
-    <div class="composerCompactGrid viewingMetaGrid">
+    <div class="viewingDateRow">
       <div class="field"><label>تاريخ المشاهدة</label><input id="workWatchedAt" type="datetime-local"></div>
-      <div class="field seriesOnly"><label>الموسم <span>اختياري</span></label><input id="workSeason" type="number" min="1" inputmode="numeric"></div>
-      <div class="field seriesOnly"><label>الحلقة <span>اختياري</span></label><input id="workEpisode" type="number" min="1" inputmode="numeric"></div>
+    </div>
+    <div class="seriesProgressPanel seriesOnly">
+      <div class="seriesProgressHead"><div><b>تقدمك في المسلسل</b><small>اربط تقييمك بعدد المواسم التي شاهدتها</small></div><span>📺</span></div>
+      <div class="seriesProgressGrid">
+        <div class="field"><label>عدد المواسم التي شاهدتها</label><input id="workSeasonsWatched" type="number" min="1" max="99" inputmode="numeric" placeholder="مثال: 3"></div>
+        <div class="field"><label>آخر حلقة <span>اختياري</span></label><input id="workEpisode" type="number" min="1" inputmode="numeric" placeholder="مثال: 8"></div>
+      </div>
     </div>
     <label class="switchRow composerDetailSwitch"><input id="workDetailedToggle" type="checkbox"><span><b>تقييم مفصل</b><small>القصة، التمثيل، الإخراج، التصوير، الموسيقى والمتعة — اختياري</small></span></label>
     <div id="workCriteriaWrap" class="criteriaOptionalWrap hidden"><div class="sectionhead compact"><div><h3>التقييم المفصل</h3><p>كل عنصر من 10 ويمكن ترك أي عنصر فارغًا</p></div><div class="badge">المتوسط <b id="workAvgPreview">—</b></div></div><div class="criteriaGrid" id="workCriteria"></div></div>
@@ -128,7 +133,26 @@
   <div class="formactions composerStickyActions"><button class="btn primary" id="saveWorkBtn">حفظ التقييم</button><button class="btn secondary" data-close="workModal">إلغاء</button></div>
 </div></div>
 
-<div class="modalwrap" id="viewingModal"><div class="modal"><div class="modalhead"><h3 id="viewingModalTitle">إضافة مشاهدة</h3><button class="close" data-close="viewingModal">×</button></div><input type="hidden" id="viewingId"><input type="hidden" id="viewingWorkId"><div class="formgrid two"><div class="field"><label>تاريخ المشاهدة</label><input id="viewingWatchedAt" type="datetime-local"></div><div class="field"><label>الحالة</label><select id="viewingStatus"><option value="completed">شاهدته</option><option value="watching">أشاهده الآن</option><option value="planned">أريد مشاهدته</option><option value="dropped">توقفت عنه</option></select></div><div class="field"><label>التقييم النهائي لهذه المشاهدة — اختياري</label><input id="viewingOverall" type="number" min="1" max="10" step="0.1" inputmode="decimal" placeholder="مثال 8.4"></div><div class="field viewingSeriesOnly"><label>الموسم — اختياري</label><input id="viewingSeason" type="number" min="1"></div><div class="field viewingSeriesOnly"><label>الحلقة — اختياري</label><input id="viewingEpisode" type="number" min="1"></div><div class="field" style="grid-column:1/-1"><label>ملاحظة عن هذه المشاهدة</label><textarea id="viewingNotes"></textarea></div></div><label class="switchRow"><input id="viewingDetailedToggle" type="checkbox"><span><b>إضافة تقييم مفصل</b><small>اختياري بالكامل ويمكن الاكتفاء بالتقييم النهائي</small></span></label><div id="viewingCriteriaWrap" class="criteriaOptionalWrap hidden"><div class="sectionhead compact"><div><h3>التقييم المفصل</h3><p>كل عنصر من 10 ويمكن ترك أي عنصر بدون تقييم</p></div><div class="badge">المتوسط <b id="viewingAvgPreview">—</b></div></div><div class="criteriaGrid" id="viewingCriteria"></div></div><div class="formactions"><button class="btn primary" id="saveViewingBtn">حفظ المشاهدة</button><button class="btn secondary" data-close="viewingModal">إلغاء</button></div></div></div>
+<div class="modalwrap" id="viewingModal"><div class="modal compactViewingModal">
+  <div class="modalhead"><h3 id="viewingModalTitle">إضافة مشاهدة</h3><button class="close" data-close="viewingModal">×</button></div>
+  <input type="hidden" id="viewingId"><input type="hidden" id="viewingWorkId">
+  <div class="viewingQuickGrid">
+    <div class="field viewingDateField"><label>تاريخ المشاهدة</label><input id="viewingWatchedAt" type="datetime-local"></div>
+    <div class="field"><label>الحالة</label><select id="viewingStatus"><option value="completed">شاهدته</option><option value="watching">أشاهده الآن</option><option value="planned">أريد مشاهدته</option><option value="dropped">توقفت عنه</option></select></div>
+  </div>
+  <div class="quickRatingBox"><div><b>تقييم هذه المشاهدة</b><small>اختياري — من 10</small></div><input id="viewingOverall" type="number" min="1" max="10" step="0.1" inputmode="decimal" placeholder="8.5"></div>
+  <div class="seriesProgressPanel viewingSeriesOnly">
+    <div class="seriesProgressHead"><div><b>تقدمك في المسلسل</b><small>التقييم يعكس ما شاهدته حتى الآن</small></div><span>📺</span></div>
+    <div class="seriesProgressGrid">
+      <div class="field"><label>عدد المواسم التي شاهدتها</label><input id="viewingSeasonsWatched" type="number" min="1" max="99" inputmode="numeric" placeholder="مثال: 3"></div>
+      <div class="field"><label>آخر حلقة <span>اختياري</span></label><input id="viewingEpisode" type="number" min="1" inputmode="numeric"></div>
+    </div>
+  </div>
+  <div class="field viewingNotesField"><label>ملاحظة <span>اختياري</span></label><textarea id="viewingNotes" placeholder="رأيك عن هذه المشاهدة…"></textarea></div>
+  <label class="switchRow composerDetailSwitch"><input id="viewingDetailedToggle" type="checkbox"><span><b>إضافة تقييم مفصل</b><small>اختياري بالكامل ويمكن الاكتفاء بالتقييم النهائي</small></span></label>
+  <div id="viewingCriteriaWrap" class="criteriaOptionalWrap hidden"><div class="sectionhead compact"><div><h3>التقييم المفصل</h3><p>كل عنصر من 10 ويمكن ترك أي عنصر بدون تقييم</p></div><div class="badge">المتوسط <b id="viewingAvgPreview">—</b></div></div><div class="criteriaGrid" id="viewingCriteria"></div></div>
+  <div class="formactions"><button class="btn primary" id="saveViewingBtn">حفظ المشاهدة</button><button class="btn secondary" data-close="viewingModal">إلغاء</button></div>
+</div></div>
 
 <div class="modalwrap" id="settingsModal"><div class="modal"><div class="modalhead"><h3>إعدادات كادر</h3><button class="close" data-close="settingsModal">×</button></div><div class="settingsPanel"><div class="settingsBlock"><h4>رابطي في كادر</h4><p>يظهر للزوار بشكل أنيق، بينما يستخدم التطبيق الرابط الحقيقي تلقائيًا عند النسخ والمشاركة.</p><div class="settingsRow"><input id="publicLinkPreview" readonly><button class="btn secondary" id="copyPublicLinkBtn">نسخ</button></div><div class="field" style="margin-top:10px"><label>تخصيص الجزء الأخير</label><input id="publicSlugInput" dir="ltr" placeholder="my-cinema"></div><div class="hint">4–40 حرفًا إنجليزيًا صغيرًا، أرقام، - أو _.</div><div class="formactions"><button class="btn primary" id="savePublicSlugBtn">حفظ الاسم</button></div></div><div class="settingsBlock hidden" id="ownerAppLinkBlock"><h4>رابط التطبيق الأصلي — للمالك</h4><p>رابط الدخول الرئيسي إلى كادر.</p><div class="settingsRow"><input id="ownerAppLinkPreview" readonly><button class="btn secondary" id="copyOwnerAppLinkBtn">نسخ</button></div></div><div class="settingsBlock"><h4>الحساب والتطبيق</h4><p>إدارة الملف الشخصي والإشعارات ولوحة المالك.</p><div class="settingsActions"><button class="btn secondary" id="settingsProfileBtn">✎ تعديل ملفي</button><button class="btn secondary" id="settingsPushBtn">🔔 الإشعارات</button><button class="btn secondary wide hidden" id="settingsAdminBtn">⚙ إدارة المنصة</button><button class="btn danger wide" id="settingsLogoutBtn">تسجيل الخروج</button></div></div></div></div></div>
 
