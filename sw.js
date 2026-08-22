@@ -1,4 +1,4 @@
-const CACHE='kadr-shell-v1.10-r1';
+const CACHE='kadr-shell-v1.11-r1';
 const SHELL=['./','./index.html','./app.css','./app.js','./config.js','./manifest.webmanifest','/KADR/icon-192.png','/KADR/icon-512.png','/KADR/apple-touch-icon.png'];
 async function cacheFresh(){const c=await caches.open(CACHE);await Promise.all(SHELL.map(async u=>{try{const r=await fetch(new Request(u,{cache:'reload'}));if(r.ok)await c.put(u,r.clone())}catch{}}))}
 self.addEventListener('install',e=>{e.waitUntil(cacheFresh().then(()=>self.skipWaiting()))});
