@@ -14,6 +14,24 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/KADR/apple-touch-icon.png">
 <title>كادر — KADR</title>
 <meta name="description" content="منصة شخصية فاخرة لتقييم الأفلام والمسلسلات ومشاركة ذائقتك السينمائية.">
+<script>
+(()=>{
+  const q=new URLSearchParams(location.search);
+  if(q.get('forceUpdate')!=='1'||!('serviceWorker' in navigator)) return;
+  document.documentElement.classList.add('kadr-force-refresh');
+  const clean=async()=>{
+    try{
+      const regs=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(async r=>{try{await r.update()}catch{};if(r.waiting)r.waiting.postMessage({type:'SKIP_WAITING'})}));
+      if('caches' in window){const ks=await caches.keys();await Promise.all(ks.filter(k=>k.startsWith('kadr-shell-')).map(k=>caches.delete(k)))}
+    }catch{}
+    q.delete('forceUpdate');
+    const next=location.pathname+(q.toString()?'?'+q.toString():'')+location.hash;
+    setTimeout(()=>location.replace(next),180);
+  };
+  clean();
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
 <script src="config.js"></script>
 <link rel="stylesheet" href="app.css">
@@ -40,8 +58,9 @@
 
 <main id="dashboardView" class="hidden">
  <section class="hero" id="dashboardHero"></section>
- <section class="section"><div class="sectionhead"><div><h2>أعمالي</h2><p>إدارة الأفلام والمسلسلات وسجل المشاهدات</p></div><button class="btn primary" id="addWorkBtn">＋ إضافة تقييم</button></div>
-  <div class="searchbar"><input id="dashSearch" type="search" placeholder="ابحث في تقييماتك…"></div><div class="filters" id="dashGenreFilters"></div>
+ <section class="section"><div class="sectionhead"><div><h2>أعمالي</h2><p>إدارة الأفلام والمسلسلات وسجل المشاهدات</p></div></div>
+  <div class="searchbar"><input id="dashSearch" type="search" placeholder="ابحث في تقييماتك…"></div>
+  <div class="dashFilterRow"><div class="filters" id="dashGenreFilters"></div><button class="btn primary addRatingCompact" id="addWorkBtn">＋ إضافة تقييم</button></div>
   <div class="segment" id="dashTypeSegment"><button data-type="movie" class="active">🎬 الأفلام</button><button data-type="series">📺 المسلسلات</button></div><div class="grid" id="dashGrid"></div>
  </section>
 </main>
