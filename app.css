@@ -116,3 +116,9 @@ html.kadr-force-refresh body{opacity:.01;pointer-events:none}
   .ratingMainRow{grid-template-columns:1fr}.ratingHelp{padding-inline:2px}
   .seriesProgressGrid{grid-template-columns:1fr}
 }
+
+
+/* KADR v1.8 — rating badge visibility */
+.score{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important}
+.score b{display:block!important;line-height:1!important}
+.score .scoreStar{display:block!important;position:static!important;visibility:visible!important;opacity:1!important;font-size:11px!important;line-height:1!important;margin:0!important;color:#182235!important;text-shadow:0 1px rgba(255,255,255,.28)!important}
