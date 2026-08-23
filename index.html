@@ -69,7 +69,7 @@
  <section class="hero" id="adminHero"></section>
  <section class="section"><div class="sectionhead"><div><h2>المستخدمون</h2><p>إدارة حسابات كادر وصفحاتهم العامة</p></div><button class="btn primary" id="openCreateUserBtn">＋ مستخدم جديد</button></div><div class="tablewrap"><table><thead><tr><th>المستخدم</th><th>الرابط</th><th>الأعمال</th><th>الحالة</th><th>الانضمام</th><th>إدارة</th></tr></thead><tbody id="usersTable"></tbody></table></div></section>
 </main>
-<div class="footerVersion" id="footerVersion">كادر • v1.4</div>
+<div class="footerVersion" id="footerVersion">كادر • v1.12</div>
 </div>
 
 <div class="modalwrap" id="authModal"><div class="modal"><div class="modalhead"><h3>الدخول إلى كادر</h3><button class="close" data-close="authModal">×</button></div><div class="note" style="margin-bottom:12px">الدخول مخصص للحسابات المعتمدة من مالك المنصة. إنشاء الحسابات الجديدة يتم من لوحة المالك فقط.</div><div class="formgrid"><div class="field"><label>اسم المستخدم أو البريد الإلكتروني</label><input id="loginIdentifier" dir="ltr" autocomplete="username" placeholder="username أو name@example.com"></div><div class="field"><label>كلمة المرور</label><input id="loginPassword" type="password" autocomplete="current-password"></div><div class="rememberRow"><label><input id="rememberMe" type="checkbox" checked> إبقائي مسجّلًا على هذا الجهاز</label><span class="hint">اختياري</span></div></div><div class="note hidden" id="confirmNote" style="margin-top:12px">بريد هذا الحساب غير مؤكد بعد.<div style="margin-top:9px"><button class="btn secondary" id="resendConfirmBtn">إعادة إرسال رابط التأكيد</button></div></div><div class="note hidden" id="demoNote" style="margin-top:12px">الوضع المحلي للتجربة: <b>abdullah / user</b> أو <b>admin / admin</b>.</div><div class="formactions"><button class="btn primary" id="loginBtn">دخول</button></div></div></div>
@@ -94,7 +94,7 @@
       <div class="field"><label>النوع</label><select id="workKind"><option value="movie">🎬 فيلم</option><option value="series">📺 مسلسل</option></select></div>
       <div class="field"><label>سنة الإصدار</label><input id="workYear" type="number" min="1888" max="2200" inputmode="numeric"></div>
       <div class="field"><label>الحالة</label><select id="workStatus"><option value="completed">✓ شاهدته</option><option value="watching">أشاهده الآن</option><option value="planned">أريد مشاهدته</option><option value="dropped">توقفت عنه</option></select></div>
-      <div class="field"><label>المنصة / السينما <span>اختياري</span></label><input id="workPlatform" placeholder="Cinema, Netflix…"></div>
+      <div class="field sourcePickerField"><label id="workSourceLabel">مكان المشاهدة / المصدر <span>اختياري</span></label><input id="workPlatform" type="hidden"><div class="sourcePicker" id="workSourcePicker"></div><input id="workPlatformOther" class="sourceOther hidden" placeholder="اكتب مصدرًا آخر…"><div class="sourcePickerHint" id="workSourceHint"></div></div>
     </div>
   </div>
 
