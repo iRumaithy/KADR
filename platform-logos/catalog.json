@@ -1,5 +1,6 @@
 {
-  "version": "1.12",
+  "version": "1.13",
+  "source_policy": "current brand marks; no hand-drawn approximations in UI",
   "sources": [
     {
       "id": "cinema",
@@ -13,7 +14,8 @@
         "theater",
         "theatre"
       ],
-      "logo": "cinema.svg"
+      "logo": "platform-logos/cinema.svg",
+      "verified": true
     },
     {
       "id": "netflix",
@@ -26,11 +28,12 @@
         "netflix",
         "نتفلكس"
       ],
-      "logo": "netflix.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/netflix.svg",
+      "verified": true
     },
     {
       "id": "appletv",
-      "name": "Apple TV+",
+      "name": "Apple TV",
       "kinds": [
         "movie",
         "series"
@@ -42,7 +45,8 @@
         "appletv",
         "appletv+"
       ],
-      "logo": "appletv.svg"
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Apple_TV_logo.svg",
+      "verified": true
     },
     {
       "id": "primevideo",
@@ -58,7 +62,8 @@
         "amazon prime video",
         "primevideo"
       ],
-      "logo": "primevideo.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/prime-video-light.svg",
+      "verified": true
     },
     {
       "id": "disneyplus",
@@ -72,7 +77,8 @@
         "disney+",
         "disney plus"
       ],
-      "logo": "disneyplus.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/disney-plus.svg",
+      "verified": true
     },
     {
       "id": "shahid",
@@ -84,9 +90,11 @@
       "aliases": [
         "shahid",
         "شاهد",
-        "شاهد vip"
+        "شاهد vip",
+        "mbc shahid"
       ],
-      "logo": "shahid.svg"
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Mbc_Shahid.svg",
+      "verified": true
     },
     {
       "id": "osnplus",
@@ -100,11 +108,12 @@
         "osn+",
         "osn plus"
       ],
-      "logo": "osnplus.svg"
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/OSN%2B_logo.svg",
+      "verified": true
     },
     {
       "id": "max",
-      "name": "Max",
+      "name": "HBO Max",
       "kinds": [
         "movie",
         "series"
@@ -114,7 +123,8 @@
         "hbo max",
         "hbomax"
       ],
-      "logo": "max.svg"
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/HBO_Max_May_2025_%28Horizontal%29.svg",
+      "verified": true
     },
     {
       "id": "starzplay",
@@ -128,7 +138,8 @@
         "starz play",
         "starz"
       ],
-      "logo": "starzplay.svg"
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Starzplay-logo-Real-SVG.svg",
+      "verified": true
     },
     {
       "id": "paramountplus",
@@ -142,7 +153,8 @@
         "paramount+",
         "paramount plus"
       ],
-      "logo": "paramountplus.svg"
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Paramount%2B_logo.svg",
+      "verified": true
     },
     {
       "id": "hulu",
@@ -154,7 +166,8 @@
       "aliases": [
         "hulu"
       ],
-      "logo": "hulu.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/hulu.svg",
+      "verified": true
     },
     {
       "id": "peacock",
@@ -166,7 +179,8 @@
       "aliases": [
         "peacock"
       ],
-      "logo": "peacock.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/peacock.svg",
+      "verified": true
     },
     {
       "id": "youtube",
@@ -179,7 +193,8 @@
         "youtube",
         "يوتيوب"
       ],
-      "logo": "youtube.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/youtube.svg",
+      "verified": true
     },
     {
       "id": "mbc2",
@@ -192,7 +207,8 @@
         "mbc 2",
         "ام بي سي 2"
       ],
-      "logo": "mbc2.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/mbc-2-ae.png",
+      "verified": true
     },
     {
       "id": "mbcaction",
@@ -206,7 +222,8 @@
         "mbcaction",
         "ام بي سي اكشن"
       ],
-      "logo": "mbcaction.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/mbc-action-ae.png",
+      "verified": true
     },
     {
       "id": "mbcmax",
@@ -218,7 +235,8 @@
         "mbc max",
         "mbcmax"
       ],
-      "logo": "mbcmax.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/mbc-max-ae.png",
+      "verified": true
     },
     {
       "id": "dubaione",
@@ -232,7 +250,8 @@
         "dubaione",
         "دبي ون"
       ],
-      "logo": "dubaione.svg"
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/dubai-one-ae.png",
+      "verified": true
     },
     {
       "id": "tod",
@@ -245,7 +264,8 @@
         "tod",
         "تود"
       ],
-      "logo": "tod.svg"
+      "logo": "https://cdn.rcd.gg/PreMiD/websites/T/TOD/assets/logo.png",
+      "verified": true
     }
   ]
 }
