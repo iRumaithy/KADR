@@ -1,0 +1,251 @@
+{
+  "version": "1.12",
+  "sources": [
+    {
+      "id": "cinema",
+      "name": "سينما",
+      "kinds": [
+        "movie"
+      ],
+      "aliases": [
+        "cinema",
+        "سينما",
+        "theater",
+        "theatre"
+      ],
+      "logo": "cinema.svg"
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "netflix",
+        "نتفلكس"
+      ],
+      "logo": "netflix.svg"
+    },
+    {
+      "id": "appletv",
+      "name": "Apple TV+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "apple",
+        "apple tv",
+        "apple tv+",
+        "appletv",
+        "appletv+"
+      ],
+      "logo": "appletv.svg"
+    },
+    {
+      "id": "primevideo",
+      "name": "Prime Video",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "prime",
+        "prime video",
+        "amazon prime",
+        "amazon prime video",
+        "primevideo"
+      ],
+      "logo": "primevideo.svg"
+    },
+    {
+      "id": "disneyplus",
+      "name": "Disney+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "disney",
+        "disney+",
+        "disney plus"
+      ],
+      "logo": "disneyplus.svg"
+    },
+    {
+      "id": "shahid",
+      "name": "Shahid",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "shahid",
+        "شاهد",
+        "شاهد vip"
+      ],
+      "logo": "shahid.svg"
+    },
+    {
+      "id": "osnplus",
+      "name": "OSN+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "osn",
+        "osn+",
+        "osn plus"
+      ],
+      "logo": "osnplus.svg"
+    },
+    {
+      "id": "max",
+      "name": "Max",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "max",
+        "hbo max",
+        "hbomax"
+      ],
+      "logo": "max.svg"
+    },
+    {
+      "id": "starzplay",
+      "name": "STARZPLAY",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "starzplay",
+        "starz play",
+        "starz"
+      ],
+      "logo": "starzplay.svg"
+    },
+    {
+      "id": "paramountplus",
+      "name": "Paramount+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "paramount",
+        "paramount+",
+        "paramount plus"
+      ],
+      "logo": "paramountplus.svg"
+    },
+    {
+      "id": "hulu",
+      "name": "Hulu",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "hulu"
+      ],
+      "logo": "hulu.svg"
+    },
+    {
+      "id": "peacock",
+      "name": "Peacock",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "peacock"
+      ],
+      "logo": "peacock.svg"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "youtube",
+        "يوتيوب"
+      ],
+      "logo": "youtube.svg"
+    },
+    {
+      "id": "mbc2",
+      "name": "MBC 2",
+      "kinds": [
+        "movie"
+      ],
+      "aliases": [
+        "mbc2",
+        "mbc 2",
+        "ام بي سي 2"
+      ],
+      "logo": "mbc2.svg"
+    },
+    {
+      "id": "mbcaction",
+      "name": "MBC Action",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "mbc action",
+        "mbcaction",
+        "ام بي سي اكشن"
+      ],
+      "logo": "mbcaction.svg"
+    },
+    {
+      "id": "mbcmax",
+      "name": "MBC Max",
+      "kinds": [
+        "movie"
+      ],
+      "aliases": [
+        "mbc max",
+        "mbcmax"
+      ],
+      "logo": "mbcmax.svg"
+    },
+    {
+      "id": "dubaione",
+      "name": "Dubai One",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "dubai one",
+        "dubaione",
+        "دبي ون"
+      ],
+      "logo": "dubaione.svg"
+    },
+    {
+      "id": "tod",
+      "name": "TOD",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "tod",
+        "تود"
+      ],
+      "logo": "tod.svg"
+    }
+  ]
+}
