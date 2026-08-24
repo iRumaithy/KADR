@@ -1,167 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071426">
-<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="كادر">
-<meta name="application-name" content="كادر">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="/KADR/favicon-32.png" type="image/png">
-<link rel="apple-touch-icon" sizes="180x180" href="/KADR/apple-touch-icon.png">
+<link rel="manifest" href="/KADR/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/KADR/apple-touch-icon.png">
 <title>كادر — KADR</title>
-<meta name="description" content="منصة شخصية فاخرة لتقييم الأفلام والمسلسلات ومشاركة ذائقتك السينمائية.">
-<script>
-(()=>{
-  const q=new URLSearchParams(location.search);
-  if(q.get('forceUpdate')!=='1'||!('serviceWorker' in navigator)) return;
-  document.documentElement.classList.add('kadr-force-refresh');
-  const clean=async()=>{
-    try{
-      const regs=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(async r=>{try{await r.update()}catch{};if(r.waiting)r.waiting.postMessage({type:'SKIP_WAITING'})}));
-      if('caches' in window){const ks=await caches.keys();await Promise.all(ks.filter(k=>k.startsWith('kadr-shell-')).map(k=>caches.delete(k)))}
-    }catch{}
-    q.delete('forceUpdate');
-    const next=location.pathname+(q.toString()?'?'+q.toString():'')+location.hash;
-    setTimeout(()=>location.replace(next),180);
-  };
-  clean();
-})();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
-<script src="config.js"></script>
-<link rel="stylesheet" href="app.css">
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;background:radial-gradient(circle at 50% 15%,#122b48 0,#071426 36%,#030811 76%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;color:#f4f6fa}.loader{width:min(88vw,430px);padding:32px 24px;border:1px solid rgba(214,178,74,.28);border-radius:32px;background:linear-gradient(145deg,rgba(17,41,68,.9),rgba(4,14,27,.94));box-shadow:0 24px 70px rgba(0,0,0,.45);text-align:center}.mark{width:84px;height:84px;margin:auto;border-radius:24px;display:grid;place-items:center;font:800 44px Georgia,serif;color:#071426;background:linear-gradient(135deg,#ffe37b,#c89a26);box-shadow:0 10px 34px rgba(214,178,74,.23)}h1{margin:18px 0 5px;font-size:27px}p{margin:0;color:#aeb8c8;font-size:14px}.bar{height:4px;margin:24px 0 0;border-radius:99px;background:#102844;overflow:hidden}.bar:before{content:"";display:block;width:42%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#9da7b7,#f4cf57,#fff0a5);animation:run 1.05s ease-in-out infinite}@keyframes run{0%{transform:translateX(150%)}100%{transform:translateX(-240%)}}.err{display:none;margin-top:16px;color:#f1cd63}.err.show{display:block}
+</style>
+<script src="/KADR/config.js"></script>
 </head>
 <body>
-
-<div class="app">
-<header class="topbar"><div class="topin">
-  <div class="brand"><div class="brandmark" aria-label="شعار كادر"><img src="/KADR/icon-192.png" alt=""></div><div class="brandtext"><b>كادر</b><small id="brandSub">KADR</small></div></div>
-  <div class="topmeta"><div class="clock" id="liveClock"><b id="liveTime"></b><span id="liveDate"></span></div><div class="topactions"><button class="iconbtn hidden" id="installBtn" title="تثبيت التطبيق">⇩</button><button class="iconbtn" id="refreshBtn" title="تحديث البيانات">↻</button><button class="iconbtn hidden" id="settingsBtn" title="الإعدادات">⚙</button><button class="iconbtn" id="homeBtn" title="الرئيسية">⌂</button><button class="iconbtn" id="accountBtn" title="الحساب">◉</button></div></div>
-</div></header>
-<div id="updateNotice" class="updateNotice hidden"><div class="updateNoticeText"><b id="updateNoticeTitle">تحديث متاح</b><span id="updateNoticeText"></span></div><button class="btn primary" id="reviewUpdateBtn">مراجعة التحديث</button></div>
-<div id="pushNotice" class="pushNotice hidden"><div class="updateNoticeText"><b>🔔 إشعارات كادر</b><span id="pushNoticeText"></span></div><button class="btn secondary" id="enablePushBtn">تفعيل الإشعارات</button></div>
-
-<main id="publicView">
- <section class="hero" id="profileHero"></section>
- <section class="section" id="catalogSection"><div class="sectionhead"><div><h2 id="listTitle">الأعلى تقييمًا</h2><p>مرتبة حسب رأي صاحب الصفحة</p></div></div>
-  <div class="searchbar"><input id="publicSearch" type="search" placeholder="ابحث باسم العمل، التصنيف أو المنصة…"></div>
-  <div class="homeFilterRow"><div class="filters" id="genreFilters"></div><button class="btn primary addRatingHome hidden" id="addWorkHomeBtn">＋ إضافة تقييم</button></div>
-  <div class="segment" id="typeSegment"><button data-type="movie" class="active">🎬 الأفلام</button><button data-type="series">📺 المسلسلات</button></div>
-  <div class="grid" id="workGrid"></div>
- </section>
-</main>
-
-<main id="dashboardView" class="hidden">
- <section class="hero" id="dashboardHero"></section>
- <section class="section"><div class="sectionhead"><div><h2>أعمالي</h2><p>إدارة الأفلام والمسلسلات وسجل المشاهدات</p></div></div>
-  <div class="searchbar"><input id="dashSearch" type="search" placeholder="ابحث في تقييماتك…"></div>
-  <div class="filters" id="dashGenreFilters"></div>
-  <div class="segment" id="dashTypeSegment"><button data-type="movie" class="active">🎬 الأفلام</button><button data-type="series">📺 المسلسلات</button></div><div class="grid" id="dashGrid"></div>
- </section>
-</main>
-
-<main id="adminView" class="hidden">
- <section class="hero" id="adminHero"></section>
- <section class="section"><div class="sectionhead"><div><h2>المستخدمون</h2><p>إدارة حسابات كادر وصفحاتهم العامة</p></div><button class="btn primary" id="openCreateUserBtn">＋ مستخدم جديد</button></div><div class="tablewrap"><table><thead><tr><th>المستخدم</th><th>الرابط</th><th>الأعمال</th><th>الحالة</th><th>الانضمام</th><th>إدارة</th></tr></thead><tbody id="usersTable"></tbody></table></div></section>
-</main>
-<div class="footerVersion" id="footerVersion">كادر • v1.12</div>
-</div>
-
-<div class="modalwrap" id="authModal"><div class="modal"><div class="modalhead"><h3>الدخول إلى كادر</h3><button class="close" data-close="authModal">×</button></div><div class="note" style="margin-bottom:12px">الدخول مخصص للحسابات المعتمدة من مالك المنصة. إنشاء الحسابات الجديدة يتم من لوحة المالك فقط.</div><div class="formgrid"><div class="field"><label>اسم المستخدم أو البريد الإلكتروني</label><input id="loginIdentifier" dir="ltr" autocomplete="username" placeholder="username أو name@example.com"></div><div class="field"><label>كلمة المرور</label><input id="loginPassword" type="password" autocomplete="current-password"></div><div class="rememberRow"><label><input id="rememberMe" type="checkbox" checked> إبقائي مسجّلًا على هذا الجهاز</label><span class="hint">اختياري</span></div></div><div class="note hidden" id="confirmNote" style="margin-top:12px">بريد هذا الحساب غير مؤكد بعد.<div style="margin-top:9px"><button class="btn secondary" id="resendConfirmBtn">إعادة إرسال رابط التأكيد</button></div></div><div class="note hidden" id="demoNote" style="margin-top:12px">الوضع المحلي للتجربة: <b>abdullah / user</b> أو <b>admin / admin</b>.</div><div class="formactions"><button class="btn primary" id="loginBtn">دخول</button></div></div></div>
-
-<div class="modalwrap" id="adminCreateUserModal"><div class="modal"><div class="modalhead"><h3>إنشاء مستخدم جديد</h3><button class="close" data-close="adminCreateUserModal">×</button></div><div class="note">متاح لمالك كادر فقط. بعد الإنشاء أرسل للمستخدم اسم المستخدم وكلمة المرور الأولية.</div><div class="formgrid two" style="margin-top:12px"><div class="field"><label>الاسم الظاهر</label><input id="adminNewDisplayName"></div><div class="field"><label>اسم المستخدم</label><input id="adminNewUsername" dir="ltr"></div><div class="field"><label>البريد الإلكتروني</label><input id="adminNewEmail" type="email" dir="ltr"></div><div class="field"><label>كلمة المرور الأولية</label><input id="adminNewPassword" type="password" minlength="8"></div></div><div class="formactions"><button class="btn primary" id="adminCreateUserBtn">إنشاء الحساب</button><button class="btn secondary" data-close="adminCreateUserModal">إلغاء</button></div></div></div>
-
-<div class="modalwrap" id="resetPasswordModal"><div class="modal"><div class="modalhead"><h3>إعادة تعيين كلمة المرور</h3><button class="close" data-close="resetPasswordModal">×</button></div><input type="hidden" id="resetUserId"><div class="field"><label>كلمة المرور الجديدة</label><input id="resetPasswordValue" type="password" minlength="8" placeholder="8 أحرف على الأقل"></div><div class="formactions"><button class="btn primary" id="resetPasswordBtn">حفظ كلمة المرور</button></div></div></div>
-
-<div class="modalwrap" id="profileModal"><div class="modal"><div class="modalhead"><h3>تعديل ملفي</h3><button class="close" data-close="profileModal">×</button></div><div class="formgrid two"><div class="field"><label>الاسم الظاهر</label><input id="profileName"></div><div class="field"><label>اسم المستخدم</label><input id="profileUsername" dir="ltr"></div><div class="field" style="grid-column:1/-1"><label>نبذة قصيرة</label><textarea id="profileBio"></textarea></div><div class="field" style="grid-column:1/-1"><label class="upload">📷 صورة شخصية <input id="profilePhoto" type="file" accept="image/*"><img class="preview" id="profilePreview"></label></div></div><div class="formactions"><button class="btn primary" id="saveProfileBtn">حفظ</button><button class="btn secondary" data-close="profileModal">إلغاء</button></div></div></div>
-
-<div class="modalwrap" id="workModal"><div class="modal ratingComposerModal">
-  <div class="ratingComposerHead">
-    <div class="composerTitle"><span class="composerK">K</span><div><h3 id="workModalTitle">إضافة تقييم جديد</h3><p>تقييم سريع، مرتب، وعلى مقياس 10 مثل IMDb</p></div></div>
-    <button class="close" data-close="workModal">×</button>
-  </div>
-  <input type="hidden" id="workId"><input type="hidden" id="workOverride">
-
-  <div class="composerCard composerBasics">
-    <div class="composerEyebrow">العمل</div>
-    <div class="field composerTitleField"><label>اسم الفيلم أو المسلسل</label><input id="workTitle" autocomplete="off" placeholder="مثال: The Odyssey"></div>
-    <div class="composerCompactGrid">
-      <div class="field"><label>النوع</label><select id="workKind"><option value="movie">🎬 فيلم</option><option value="series">📺 مسلسل</option></select></div>
-      <div class="field"><label>سنة الإصدار</label><input id="workYear" type="number" min="1888" max="2200" inputmode="numeric"></div>
-      <div class="field"><label>الحالة</label><select id="workStatus"><option value="completed">✓ شاهدته</option><option value="watching">أشاهده الآن</option><option value="planned">أريد مشاهدته</option><option value="dropped">توقفت عنه</option></select></div>
-      <div class="field sourcePickerField"><label id="workSourceLabel">مكان المشاهدة / المصدر <span>اختياري</span></label><input id="workPlatform" type="hidden"><div class="sourcePicker" id="workSourcePicker"></div><input id="workPlatformOther" class="sourceOther hidden" placeholder="اكتب مصدرًا آخر…"><div class="sourcePickerHint" id="workSourceHint"></div></div>
-    </div>
-  </div>
-
-  <div class="composerCard genreComposerCard">
-    <div class="composerRowHead"><div><div class="composerEyebrow">التصنيفات</div><h4>اختر واحدًا أو أكثر</h4></div><span class="silverHint">متعدد الاختيار</span></div>
-    <div class="genrePicker" id="workGenres"></div>
-    <div class="genrePickerSummary" id="workGenreSummary"></div>
-  </div>
-
-  <div id="initialViewingBox" class="composerCard composerRatingCard">
-    <div class="composerRowHead"><div><div class="composerEyebrow gold">تقييمك</div><h4>هذه المشاهدة</h4></div><span class="imdbMark">★ / 10</span></div>
-    <div class="ratingMainRow">
-      <div class="ratingTenBox"><input id="workViewingOverall" type="number" min="1" max="10" step="0.1" inputmode="decimal" placeholder="8.5"><span>/10</span></div>
-      <div class="ratingHelp">يمكنك الاكتفاء بهذا التقييم فقط.<br>التقييمات المفصلة اختيارية.</div>
-    </div>
-    <div class="viewingDateRow">
-      <div class="field"><label>تاريخ المشاهدة</label><input id="workWatchedAt" type="datetime-local"></div>
-    </div>
-    <div class="seriesProgressPanel seriesOnly">
-      <div class="seriesProgressHead"><div><b>تقدمك في المسلسل</b><small>اربط تقييمك بعدد المواسم التي شاهدتها</small></div><span>📺</span></div>
-      <div class="seriesProgressGrid">
-        <div class="field"><label>عدد المواسم التي شاهدتها</label><input id="workSeasonsWatched" type="number" min="1" max="99" inputmode="numeric" placeholder="مثال: 3"></div>
-        <div class="field"><label>آخر حلقة <span>اختياري</span></label><input id="workEpisode" type="number" min="1" inputmode="numeric" placeholder="مثال: 8"></div>
-      </div>
-    </div>
-    <label class="switchRow composerDetailSwitch"><input id="workDetailedToggle" type="checkbox"><span><b>تقييم مفصل</b><small>القصة، التمثيل، الإخراج، التصوير، الموسيقى والمتعة — اختياري</small></span></label>
-    <div id="workCriteriaWrap" class="criteriaOptionalWrap hidden"><div class="sectionhead compact"><div><h3>التقييم المفصل</h3><p>كل عنصر من 10 ويمكن ترك أي عنصر فارغًا</p></div><div class="badge">المتوسط <b id="workAvgPreview">—</b></div></div><div class="criteriaGrid" id="workCriteria"></div></div>
-  </div>
-
-  <div class="composerCard composerOptionalCard">
-    <div class="composerEyebrow silver">لمسات أخيرة</div>
-    <div class="field"><label>مراجعتك <span>اختياري</span></label><textarea id="workNotes" placeholder="رأيك باختصار…"></textarea></div>
-    <label class="upload composerPosterUpload">🖼️ <span><b>بوستر العمل</b><small>اختياري</small></span><input id="workPoster" type="file" accept="image/*"><img class="preview" id="workPreview"></label>
-  </div>
-
-  <div class="formactions composerStickyActions"><button class="btn primary" id="saveWorkBtn">حفظ التقييم</button><button class="btn secondary" data-close="workModal">إلغاء</button></div>
-</div></div>
-
-<div class="modalwrap" id="viewingModal"><div class="modal compactViewingModal">
-  <div class="modalhead"><h3 id="viewingModalTitle">إضافة مشاهدة</h3><button class="close" data-close="viewingModal">×</button></div>
-  <input type="hidden" id="viewingId"><input type="hidden" id="viewingWorkId">
-  <div class="viewingQuickGrid">
-    <div class="field viewingDateField"><label>تاريخ المشاهدة</label><input id="viewingWatchedAt" type="datetime-local"></div>
-    <div class="field"><label>الحالة</label><select id="viewingStatus"><option value="completed">شاهدته</option><option value="watching">أشاهده الآن</option><option value="planned">أريد مشاهدته</option><option value="dropped">توقفت عنه</option></select></div>
-  </div>
-  <div class="quickRatingBox"><div><b>تقييم هذه المشاهدة</b><small>اختياري — من 10</small></div><input id="viewingOverall" type="number" min="1" max="10" step="0.1" inputmode="decimal" placeholder="8.5"></div>
-  <div class="seriesProgressPanel viewingSeriesOnly">
-    <div class="seriesProgressHead"><div><b>تقدمك في المسلسل</b><small>التقييم يعكس ما شاهدته حتى الآن</small></div><span>📺</span></div>
-    <div class="seriesProgressGrid">
-      <div class="field"><label>عدد المواسم التي شاهدتها</label><input id="viewingSeasonsWatched" type="number" min="1" max="99" inputmode="numeric" placeholder="مثال: 3"></div>
-      <div class="field"><label>آخر حلقة <span>اختياري</span></label><input id="viewingEpisode" type="number" min="1" inputmode="numeric"></div>
-    </div>
-  </div>
-  <div class="field viewingNotesField"><label>ملاحظة <span>اختياري</span></label><textarea id="viewingNotes" placeholder="رأيك عن هذه المشاهدة…"></textarea></div>
-  <label class="switchRow composerDetailSwitch"><input id="viewingDetailedToggle" type="checkbox"><span><b>إضافة تقييم مفصل</b><small>اختياري بالكامل ويمكن الاكتفاء بالتقييم النهائي</small></span></label>
-  <div id="viewingCriteriaWrap" class="criteriaOptionalWrap hidden"><div class="sectionhead compact"><div><h3>التقييم المفصل</h3><p>كل عنصر من 10 ويمكن ترك أي عنصر بدون تقييم</p></div><div class="badge">المتوسط <b id="viewingAvgPreview">—</b></div></div><div class="criteriaGrid" id="viewingCriteria"></div></div>
-  <div class="formactions"><button class="btn primary" id="saveViewingBtn">حفظ المشاهدة</button><button class="btn secondary" data-close="viewingModal">إلغاء</button></div>
-</div></div>
-
-<div class="modalwrap" id="settingsModal"><div class="modal"><div class="modalhead"><h3>إعدادات كادر</h3><button class="close" data-close="settingsModal">×</button></div><div class="settingsPanel"><div class="settingsBlock"><h4>رابطي في كادر</h4><p>يظهر للزوار بشكل أنيق، بينما يستخدم التطبيق الرابط الحقيقي تلقائيًا عند النسخ والمشاركة.</p><div class="settingsRow"><input id="publicLinkPreview" readonly><button class="btn secondary" id="copyPublicLinkBtn">نسخ</button></div><div class="field" style="margin-top:10px"><label>تخصيص الجزء الأخير</label><input id="publicSlugInput" dir="ltr" placeholder="my-cinema"></div><div class="hint">4–40 حرفًا إنجليزيًا صغيرًا، أرقام، - أو _.</div><div class="formactions"><button class="btn primary" id="savePublicSlugBtn">حفظ الاسم</button></div></div><div class="settingsBlock hidden" id="ownerAppLinkBlock"><h4>رابط التطبيق الأصلي — للمالك</h4><p>رابط الدخول الرئيسي إلى كادر.</p><div class="settingsRow"><input id="ownerAppLinkPreview" readonly><button class="btn secondary" id="copyOwnerAppLinkBtn">نسخ</button></div></div><div class="settingsBlock"><h4>الحساب والتطبيق</h4><p>إدارة الملف الشخصي والإشعارات ولوحة المالك.</p><div class="settingsActions"><button class="btn secondary" id="settingsProfileBtn">✎ تعديل ملفي</button><button class="btn secondary" id="settingsPushBtn">🔔 الإشعارات</button><button class="btn secondary wide hidden" id="settingsAdminBtn">⚙ إدارة المنصة</button><button class="btn danger wide" id="settingsLogoutBtn">تسجيل الخروج</button></div></div></div></div></div>
-
-<div class="modalwrap" id="updateModal"><div class="modal"><div class="modalhead"><h3 id="updateModalTitle">تحديث كادر</h3><button class="close" data-close="updateModal">×</button></div><div class="updateHero"><span class="previewBadge" id="updateKindBadge">✨ تحديث جديد</span><h3 id="updateVersionTitle">v1.0</h3><p id="updateNotes"></p></div><div class="backupHint">يمكنك أخذ نسخة احتياطية JSON قبل التحديث. للمستخدم تشمل ملفه وأعماله وسجل مشاهداته وتقييماته، وللمالك تشمل البيانات المحمّلة للمنصة. كلمات المرور لا تدخل في النسخة.</div><div class="updateActions"><button class="btn secondary" id="backupBeforeUpdateBtn">⬇ نسخة احتياطية</button><button class="btn primary" id="applyUpdateBtn">تحديث الآن</button><button class="btn ghost later" id="updateLaterBtn">لاحقًا</button></div></div></div>
-
-<div class="modalwrap" id="releaseModal"><div class="modal"><div class="modalhead"><h3>تهيئة تحديث تجريبي</h3><button class="close" data-close="releaseModal">×</button></div><div class="note">ارفع ملفات الإصدار الجديد أولًا داخل مجلد candidate/ في مستودع KADR. سيقوم Supabase بالتحقق من وجود الملفات ورقم الإصدار في GitHub قبل تفعيل النسخة التجريبية للمدير. بعد اعتماد المدير، لن يصل شيء للمستخدمين حتى تُرفع النسخة المعتمدة إلى الجذر ويُعاد التحقق منها.</div><div class="formgrid" style="margin-top:12px"><div class="field"><label>رقم الإصدار</label><input id="releaseVersion" dir="ltr" placeholder="1.1"></div><div class="field"><label>ملاحظات التحديث</label><textarea id="releaseNotes"></textarea></div></div><div class="formactions"><button class="btn primary" id="stageReleaseBtn">تحقق من GitHub وهيئ للمدير</button><button class="btn secondary" data-close="releaseModal">إلغاء</button></div></div></div>
-
-<div class="modalwrap" id="detailModal"><div class="modal" id="detailContent"></div></div>
-<div class="toast" id="toast"></div>
-
-<script src="app.js"></script>
-</body></html>
+<div class="loader"><div class="mark">K</div><h1>كادر</h1><p id="status">جارٍ فتح النسخة المعتمدة…</p><div class="bar"></div><div class="err" id="err">تعذر التحقق من الإصدار. سنحاول فتح آخر نسخة معروفة.</div></div>
+<script>
+(()=>{
+  const FALLBACK='1.13', STABLE_KEY='kadrBootstrapStableVersion', BOOT='v3';
+  const q=new URLSearchParams(location.search);
+  const cfg=window.APP_CONFIG||{};
+  const APP_ROOT=new URL('/KADR/',document.baseURI).href;
+  const base=APP_ROOT+'releases/v';
+  const allowedKeys=['share','u','work','candidateTest','candidateVersion'];
+  const cleanVersion=v=>/^\d+(\.\d+){1,2}$/.test(String(v||''))?String(v):'';
+  const go=(version,candidate=false)=>{
+    version=cleanVersion(version)||localStorage.getItem(STABLE_KEY)||FALLBACK;
+    const out=new URLSearchParams();
+    for(const k of allowedKeys) if(q.has(k)) out.set(k,q.get(k));
+    const injected=String(window.__KADR_SHARE_SLUG__||'').trim();
+    if(injected) out.set('share',injected);
+    if(candidate){out.set('candidateTest','1');out.set('candidateVersion',version)}
+    else {out.delete('candidateTest');out.delete('candidateVersion')}
+    const target=`${base}${encodeURIComponent(version)}/`+(out.toString()?`?${out}`:'');
+    location.replace(target);
+  };
+  const fail=()=>{document.getElementById('err')?.classList.add('show');setTimeout(()=>go(localStorage.getItem(STABLE_KEY)||FALLBACK,false),350)};
+  if(!cfg.SUPABASE_URL||!cfg.SUPABASE_PUBLISHABLE_KEY)return fail();
+  fetch(`${cfg.SUPABASE_URL}/rest/v1/mashhad_app_release?id=eq.main&select=stable_version,candidate_version,candidate_available,candidate_status,candidate_path`,{
+    cache:'no-store',headers:{apikey:cfg.SUPABASE_PUBLISHABLE_KEY}
+  }).then(r=>{if(!r.ok)throw new Error(String(r.status));return r.json()}).then(rows=>{
+    const rel=rows?.[0]||{}, stable=cleanVersion(rel.stable_version)||FALLBACK;
+    localStorage.setItem(STABLE_KEY,stable);
+    const wantsCandidate=q.get('candidateTest')==='1';
+    const cv=cleanVersion(rel.candidate_version);
+    const candidateReady=wantsCandidate&&rel.candidate_available===true&&rel.candidate_status==='testing'&&rel.candidate_path==='release'&&cv;
+    go(candidateReady?cv:stable,!!candidateReady);
+  }).catch(fail);
+  if('serviceWorker' in navigator&&location.protocol==='https:'&&location.origin===new URL(APP_ROOT).origin)navigator.serviceWorker.register(APP_ROOT+'sw.js',{scope:'/KADR/'}).then(r=>r.update()).catch(()=>{});
+})();
+</script>
+</body>
+</html>
