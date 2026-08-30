@@ -1,1 +1,271 @@
-
+{
+  "version": "1.14",
+  "source_policy": "current brand marks; no hand-drawn approximations in UI",
+  "sources": [
+    {
+      "id": "cinema",
+      "name": "سينما",
+      "kinds": [
+        "movie"
+      ],
+      "aliases": [
+        "cinema",
+        "سينما",
+        "theater",
+        "theatre"
+      ],
+      "logo": "platform-logos/cinema.svg",
+      "verified": true
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "netflix",
+        "نتفلكس"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/netflix.svg",
+      "verified": true
+    },
+    {
+      "id": "appletv",
+      "name": "Apple TV",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "apple",
+        "apple tv",
+        "apple tv+",
+        "appletv",
+        "appletv+"
+      ],
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Apple_TV_logo.svg",
+      "verified": true
+    },
+    {
+      "id": "primevideo",
+      "name": "Prime Video",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "prime",
+        "prime video",
+        "amazon prime",
+        "amazon prime video",
+        "primevideo"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/prime-video-light.svg",
+      "verified": true
+    },
+    {
+      "id": "disneyplus",
+      "name": "Disney+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "disney",
+        "disney+",
+        "disney plus"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/disney-plus.svg",
+      "verified": true
+    },
+    {
+      "id": "shahid",
+      "name": "Shahid",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "shahid",
+        "شاهد",
+        "شاهد vip",
+        "mbc shahid"
+      ],
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Mbc_Shahid.svg",
+      "verified": true
+    },
+    {
+      "id": "osnplus",
+      "name": "OSN+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "osn",
+        "osn+",
+        "osn plus"
+      ],
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/OSN%2B_logo.svg",
+      "verified": true
+    },
+    {
+      "id": "max",
+      "name": "HBO Max",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "max",
+        "hbo max",
+        "hbomax"
+      ],
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/HBO_Max_May_2025_%28Horizontal%29.svg",
+      "verified": true
+    },
+    {
+      "id": "starzplay",
+      "name": "STARZPLAY",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "starzplay",
+        "starz play",
+        "starz"
+      ],
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Starzplay-logo-Real-SVG.svg",
+      "verified": true
+    },
+    {
+      "id": "paramountplus",
+      "name": "Paramount+",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "paramount",
+        "paramount+",
+        "paramount plus"
+      ],
+      "logo": "https://commons.wikimedia.org/wiki/Special:FilePath/Paramount%2B_logo.svg",
+      "verified": true
+    },
+    {
+      "id": "hulu",
+      "name": "Hulu",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "hulu"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/hulu.svg",
+      "verified": true
+    },
+    {
+      "id": "peacock",
+      "name": "Peacock",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "peacock"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/peacock.svg",
+      "verified": true
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "youtube",
+        "يوتيوب"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/svg/youtube.svg",
+      "verified": true
+    },
+    {
+      "id": "mbc2",
+      "name": "MBC 2",
+      "kinds": [
+        "movie"
+      ],
+      "aliases": [
+        "mbc2",
+        "mbc 2",
+        "ام بي سي 2"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/mbc-2-ae.png",
+      "verified": true
+    },
+    {
+      "id": "mbcaction",
+      "name": "MBC Action",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "mbc action",
+        "mbcaction",
+        "ام بي سي اكشن"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/mbc-action-ae.png",
+      "verified": true
+    },
+    {
+      "id": "mbcmax",
+      "name": "MBC Max",
+      "kinds": [
+        "movie"
+      ],
+      "aliases": [
+        "mbc max",
+        "mbcmax"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/mbc-max-ae.png",
+      "verified": true
+    },
+    {
+      "id": "dubaione",
+      "name": "Dubai One",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "dubai one",
+        "dubaione",
+        "دبي ون"
+      ],
+      "logo": "https://cdn.jsdelivr.net/gh/tv-logo/tv-logos@main/countries/united-arab-emirates/dubai-one-ae.png",
+      "verified": true
+    },
+    {
+      "id": "tod",
+      "name": "TOD",
+      "kinds": [
+        "movie",
+        "series"
+      ],
+      "aliases": [
+        "tod",
+        "تود"
+      ],
+      "logo": "https://cdn.rcd.gg/PreMiD/websites/T/TOD/assets/logo.png",
+      "verified": true
+    }
+  ]
+}
