@@ -1,0 +1,143 @@
+name: KADR — Madar automatic approval
+run-name: KADR — ${{ github.event_name }}
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'
+      - 'scripts/**'
+      - '**.md'
+      - '**.txt'
+  schedule:
+    - cron: '4-59/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kadr-madar-${{ github.event_name == 'push' && github.sha || 'publisher' }}
+  cancel-in-progress: false
+
+env:
+  OWNER_HUB_URL: https://owner-hub-rumaithy.alromaithi-3bo0d.chatgpt.site
+  OWNER_HUB_APP_ID: kadr
+
+jobs:
+  candidate:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Automatically prepare private review from this exact commit
+        run: node scripts/madar-auto.mjs submit
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
+
+  approved:
+    needs: candidate
+    if: always() && (needs.candidate.result == 'success' || github.event_name != 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 305
+    outputs:
+      ready: ${{ steps.release.outputs.ready }}
+      version: ${{ steps.release.outputs.version }}
+      commit: ${{ steps.release.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Watch owner approval after upload (up to five hours)
+        if: github.event_name == 'push'
+        run: |
+          for attempt in $(seq 1 900); do
+            node scripts/madar-auto.mjs approved > /dev/null
+            if grep -q '^ready=true$' "$GITHUB_OUTPUT"; then break; fi
+            sleep 20
+          done
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
+      - name: Get the latest exact approved release from Madar
+        id: release
+        run: node scripts/madar-auto.mjs approved
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
+
+  publish:
+    concurrency:
+      group: kadr-madar-production
+      cancel-in-progress: false
+    needs: approved
+    if: always() && needs.approved.result == 'success' && needs.approved.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      RELEASE_VERSION: ${{ needs.approved.outputs.version }}
+      RELEASE_COMMIT: ${{ needs.approved.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_COMMIT }}
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Require the exact reviewed commit
+        run: node scripts/madar-auto.mjs check
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
+      - name: Verify version routing and backend before publication
+        run: node scripts/madar-auto.mjs preflight
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
+      - name: Prepare the same approved files
+        run: node scripts/prepare-madar-site.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Recheck approval immediately before Pages
+        run: node scripts/madar-auto.mjs check
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
+      - name: Deploy approved files
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify Pages serves the exact approved commit
+        run: node scripts/verify-madar-deployment.mjs
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+      - name: Activate release for KADR users and record publication
+        run: node scripts/madar-auto.mjs complete
+        env:
+          OWNER_HUB_TOKEN: ${{ secrets.OWNER_HUB_TOKEN }}
+          OWNER_HUB_SITE_ACCESS: ${{ secrets.OWNER_HUB_SITE_ACCESS }}
